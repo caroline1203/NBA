@@ -9,6 +9,7 @@ class DataViewContainer extends Component {
     state = {
         minCount : 2,
         chartType : "hexbin",
+        displayTooltip : true,
 
     }
     onCountSliderChange = (count) => {this.setState({minCount : count})}
@@ -20,10 +21,16 @@ class DataViewContainer extends Component {
         });
     };
 
+    onTooltipChange = (displayTooltip) => {
+        console.log(displayTooltip);
+        this.setState({ displayTooltip });
+    }
+
+
     render() {
         return (
             <div className="data-view">
-                <ShotChart playerId={this.props.playerId} minCount={this.state.minCount} chartType={this.state.chartType}/>
+                <ShotChart playerId={this.props.playerId} minCount={this.state.minCount} chartType={this.state.chartType} displayTooltip={this.state.displayTooltip}/>
                 <div className="filters">
                     <CounterSlider value = {this.state.minCount} onCountSliderChange = {lodash.debounce(this.onCountSliderChange, 500)}/>
                     <br/>
@@ -39,7 +46,8 @@ class DataViewContainer extends Component {
                             <Switch
                                 checkedChildren="On"
                                 unCheckedChildren="Off"
-                                />
+                                onChange={this.onTooltipChange}
+                                defaultChecked />
 
                         </Col>
                     </Row>
